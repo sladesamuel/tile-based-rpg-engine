@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SandboxRpg.Tiles;
 
 namespace SandboxRpg
 {
@@ -29,6 +30,9 @@ namespace SandboxRpg
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            var map = TileMapLoader.LoadFrom("Content/Maps/Map.json");
+            System.Console.WriteLine($"Width = {map.Width}, Height = {map.Height}");
         }
 
         protected override void Update(GameTime gameTime)

@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SandboxRpg.Tiles;
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
 
 namespace SandboxRpg
 {
@@ -9,6 +10,9 @@ namespace SandboxRpg
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+
+        private TiledMap tiledMap;
+        private TiledMapRenderer tiledMapRenderer;
 
         public GameApp()
         {
@@ -30,9 +34,8 @@ namespace SandboxRpg
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
-            var map = TileMapLoader.LoadFrom("Content/Maps/Map.json");
-            System.Console.WriteLine($"Width = {map.Width}, Height = {map.Height}");
+            tiledMap = Content.Load<TiledMap>("Maps/Home");
+            tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, tiledMap);
         }
 
         protected override void Update(GameTime gameTime)
@@ -42,7 +45,7 @@ namespace SandboxRpg
                 Exit();
             }
 
-            // TODO: Add your update logic here
+            tiledMapRenderer.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -51,7 +54,7 @@ namespace SandboxRpg
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            tiledMapRenderer.Draw();
 
             base.Draw(gameTime);
         }

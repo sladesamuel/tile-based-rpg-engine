@@ -15,12 +15,7 @@
 #---------------------------------- Content ---------------------------------#
 
 #begin Maps/Home.tmx
-/importer:
-/processor:
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
 /build:Maps/Home.tmx
-
-#begin Maps/Home.tsx
-/importer:
-/processor:
-/build:Maps/Home.tsx
 

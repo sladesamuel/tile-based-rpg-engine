@@ -10,6 +10,17 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\libs\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
+
+#begin Maps/Home.tmx
+/importer:
+/processor:
+/build:Maps/Home.tmx
+
+#begin Maps/Home.tsx
+/importer:
+/processor:
+/build:Maps/Home.tsx
 

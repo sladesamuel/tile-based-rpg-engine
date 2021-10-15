@@ -12,6 +12,8 @@ namespace SandboxRpg
     {
         private const int WindowWidth = 720;
         private const int WindowHeight = 480;
+        private const int ViewportWidth = 360;
+        private const int ViewportHeight = 240;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -23,14 +25,14 @@ namespace SandboxRpg
 
         public GameApp()
         {
-            graphics = new GraphicsDeviceManager(this)
-            {
-                // TODO: This is not working. It's possible that the i3 tile manager is causing
-                //       a problem, or that windowed mode is not supported by Linux.
-                IsFullScreen = false,
-                PreferredBackBufferWidth = WindowWidth,
-                PreferredBackBufferHeight = WindowHeight
-            };
+            graphics = new GraphicsDeviceManager(this);
+
+            graphics.PreferredBackBufferWidth = WindowWidth;
+            graphics.PreferredBackBufferHeight = WindowHeight;
+            graphics.ApplyChanges();
+
+            graphics.IsFullScreen = false;
+            graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -38,7 +40,7 @@ namespace SandboxRpg
 
         protected override void Initialize()
         {
-            var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, WindowWidth, WindowHeight);
+            var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, ViewportWidth, ViewportHeight);
             camera = new OrthographicCamera(viewportAdapter);
 
             base.Initialize();

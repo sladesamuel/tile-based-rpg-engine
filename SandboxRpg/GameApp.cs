@@ -54,6 +54,8 @@ namespace SandboxRpg
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+
             tiledMapRenderer.Draw();
 
             base.Draw(gameTime);

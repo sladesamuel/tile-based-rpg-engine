@@ -19,7 +19,7 @@ namespace SandboxRpg
         private TiledMap tiledMap;
         private TiledMapRenderer tiledMapRenderer;
         private OrthographicCamera camera;
-        private Vector2 cameraPosition = new Vector2(550, 600);
+        private Vector2 cameraPosition = new Vector2(550, 650);
 
         public GameApp()
         {

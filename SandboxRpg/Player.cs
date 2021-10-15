@@ -82,16 +82,17 @@ namespace SandboxRpg
             );
         }
 
-        public static Player Load(ContentManager content, Viewport viewport)
+        public static Player Load(ContentManager content, Viewport viewport, Camera<Vector2> camera)
         {
             if (content == null) throw new ArgumentNullException(nameof(content));
 
             var texture = content.Load<Texture2D>("Spritesheets/player");
-            var position = new Vector2(
+            var screenPosition = new Vector2(
                 (viewport.Width / 2f) - (SpriteWidth / 2f),
                 (viewport.Height / 2f) - (SpriteHeight / 2f)
             );
 
+            var position = camera.WorldToScreen(screenPosition);
             return new Player(texture, position);
         }
     }

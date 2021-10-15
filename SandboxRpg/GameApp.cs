@@ -18,10 +18,14 @@ namespace SandboxRpg
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        // Debugging
+        private TextDrawer debugOutput;
+        private TextDrawer.TextEntry cameraDebugText;
+        private TextDrawer.TextEntry playerDebugText;
+
         private TiledMap tiledMap;
         private TiledMapRenderer tiledMapRenderer;
         private OrthographicCamera camera;
-
         private Player player;
 
         public GameApp()
@@ -51,10 +55,15 @@ namespace SandboxRpg
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            var debugFont = Content.Load<SpriteFont>("Fonts/Debug");
+            debugOutput = new TextDrawer(debugFont);
+            cameraDebugText = debugOutput.CreateEntry(Color.Red);
+            playerDebugText = debugOutput.CreateEntry(Color.Red);
+
             tiledMap = Content.Load<TiledMap>("Maps/Home");
             tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, tiledMap);
 
-            player = Player.Load(Content, GraphicsDevice.Viewport);
+            player = Player.Load(Content, GraphicsDevice.Viewport, camera);
         }
 
         protected override void Update(GameTime gameTime)
@@ -70,22 +79,32 @@ namespace SandboxRpg
 
             camera.LookAt(player.Position);
 
+            cameraDebugText.Text = $"Camera: {camera.Position}";
+            playerDebugText.Text = $"Player: {player.Position}";
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            // Reset device
             GraphicsDevice.Clear(Color.Black);
-
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
+            // Render tilemap
             var viewMatrix = camera.GetViewMatrix();
             tiledMapRenderer.Draw(viewMatrix);
 
+            // Render assets
             spriteBatch.Begin(transformMatrix: viewMatrix);
 
             player.Draw(spriteBatch);
 
+            spriteBatch.End();
+
+            // Render text
+            spriteBatch.Begin();
+            debugOutput.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

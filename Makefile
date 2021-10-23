@@ -4,5 +4,6 @@ SHELL := /bin/bash
 build:
 	dotnet build SandboxRpg/
 
+.PHONY: start
 start:
 	dotnet run --project SandboxRpg/

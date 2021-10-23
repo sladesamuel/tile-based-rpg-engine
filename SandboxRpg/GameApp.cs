@@ -54,6 +54,7 @@ namespace SandboxRpg
             camera = new OrthographicCamera(viewportAdapter);
 
             world = new WorldBuilder()
+                .AddSystem(new PlayerMovementSystem())
                 .AddSystem(new RenderSystem(GraphicsDevice, camera))
                 .Build();
 
@@ -92,8 +93,6 @@ namespace SandboxRpg
             }
 
             tiledMapRenderer.Update(gameTime);
-            player.Update(gameTime, currentKeyboardState);
-
             camera.LookAt(player.Position);
 
             cameraDebugText.Text = $"Camera: {camera.Position}";

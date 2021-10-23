@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using MonoGame.Extended.Entities;
+using MonoGame.Extended.Sprites;
 
 namespace SandboxRpg
 {
@@ -94,6 +96,20 @@ namespace SandboxRpg
 
             var position = camera.WorldToScreen(screenPosition);
             return new Player(texture, position);
+        }
+
+        public static void AttachComponents(ContentManager content, Viewport viewport, Camera<Vector2> camera, Entity entity)
+        {
+            var texture = content.Load<Texture2D>("Spritesheets/player");
+            var screenPosition = new Vector2(
+                (viewport.Width / 2f) - (SpriteWidth / 2f),
+                (viewport.Height / 2f) - (SpriteHeight / 2f)
+            );
+
+            var position = camera.WorldToScreen(screenPosition);
+
+            entity.Attach(new Sprite(texture));
+            entity.Attach(new Transform2(position));
         }
     }
 }

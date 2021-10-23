@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Entities;
+using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended.ViewportAdapters;
@@ -74,6 +75,12 @@ namespace SandboxRpg
             tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, tiledMap);
 
             player = Player.Load(Content, GraphicsDevice.Viewport, camera);
+
+            // TODO: Tidy up loading of player.
+            var playerEntity = world.CreateEntity();
+            Player.AttachComponents(Content, GraphicsDevice.Viewport, camera, playerEntity);
+
+            base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
@@ -97,18 +104,12 @@ namespace SandboxRpg
 
         protected override void Draw(GameTime gameTime)
         {
+            // TODO: This needs to move to the end of the method call once we have moved everything to ECS.
             base.Draw(gameTime);
 
             // Render tilemap
             var viewMatrix = camera.GetViewMatrix();
             tiledMapRenderer.Draw(viewMatrix);
-
-            // Render assets
-            spriteBatch.Begin(transformMatrix: viewMatrix);
-
-            player.Draw(spriteBatch);
-
-            spriteBatch.End();
 
             // Render text
             spriteBatch.Begin();

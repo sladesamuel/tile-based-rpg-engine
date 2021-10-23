@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using MonoGame.Extended.Entities;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended.ViewportAdapters;
+using SandboxRpg.Systems;
 
 namespace SandboxRpg
 {
@@ -14,6 +16,8 @@ namespace SandboxRpg
         private const int WindowHeight = 480;
         private const int ViewportWidth = 360;
         private const int ViewportHeight = 240;
+
+        private World world;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -47,6 +51,12 @@ namespace SandboxRpg
         {
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, ViewportWidth, ViewportHeight);
             camera = new OrthographicCamera(viewportAdapter);
+
+            world = new WorldBuilder()
+                .AddSystem(new RenderSystem(GraphicsDevice, camera))
+                .Build();
+
+            Components.Add(world);
 
             base.Initialize();
         }
@@ -87,9 +97,7 @@ namespace SandboxRpg
 
         protected override void Draw(GameTime gameTime)
         {
-            // Reset device
-            GraphicsDevice.Clear(Color.Black);
-            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            base.Draw(gameTime);
 
             // Render tilemap
             var viewMatrix = camera.GetViewMatrix();
@@ -106,8 +114,6 @@ namespace SandboxRpg
             spriteBatch.Begin();
             debugOutput.Draw(spriteBatch);
             spriteBatch.End();
-
-            base.Draw(gameTime);
         }
     }
 }

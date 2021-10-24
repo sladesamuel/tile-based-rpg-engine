@@ -18,13 +18,11 @@ namespace SandboxRpg
         private const int ViewportWidth = 360;
         private const int ViewportHeight = 240;
 
-        private World world;
-
         private GraphicsDeviceManager graphics;
 
-        private TiledMap tiledMap;
-        private TiledMapRenderer tiledMapRenderer;
+        private World world;
         private OrthographicCamera camera;
+        private TileMapRenderSystem tileMapRenderSystem;
 
         public GameApp()
         {
@@ -50,6 +48,7 @@ namespace SandboxRpg
                 .AddSystem(new PlayerMovementSystem())
                 .AddSystem(new PlayerFollowSystem(camera))
                 .AddSystem(new PreRenderSystem(GraphicsDevice))
+                .AddSystem(tileMapRenderSystem = new TileMapRenderSystem(GraphicsDevice, camera))
                 .AddSystem(new RenderSystem(GraphicsDevice, camera))
                 .Build();
 
@@ -60,8 +59,8 @@ namespace SandboxRpg
 
         protected override void LoadContent()
         {
-            tiledMap = Content.Load<TiledMap>("Maps/Home");
-            tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, tiledMap);
+            var tiledMap = Content.Load<TiledMap>("Maps/Home");
+            tileMapRenderSystem.LoadMap(tiledMap);
 
             // TODO: Tidy up loading of player.
             var playerEntity = world.CreateEntity();
@@ -78,19 +77,7 @@ namespace SandboxRpg
                 Exit();
             }
 
-            tiledMapRenderer.Update(gameTime);
-
             base.Update(gameTime);
-        }
-
-        protected override void Draw(GameTime gameTime)
-        {
-            // TODO: This needs to move to the end of the method call once we have moved everything to ECS.
-            base.Draw(gameTime);
-
-            // Render tilemap
-            var viewMatrix = camera.GetViewMatrix();
-            tiledMapRenderer.Draw(viewMatrix);
         }
     }
 }

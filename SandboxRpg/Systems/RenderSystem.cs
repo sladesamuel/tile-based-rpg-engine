@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -20,8 +21,11 @@ namespace SandboxRpg.Systems
         public RenderSystem(GraphicsDevice graphicsDevice, Camera<Vector2> camera)
             : base(Aspect.All(typeof(Sprite), typeof(Transform2)))
         {
-            this.graphicsDevice = graphicsDevice;
-            this.camera = camera;
+            this.graphicsDevice = graphicsDevice
+                ?? throw new ArgumentNullException(nameof(graphicsDevice));
+
+            this.camera = camera
+                ?? throw new ArgumentNullException(nameof(camera));
 
             spriteBatch = new SpriteBatch(graphicsDevice);
         }
@@ -34,7 +38,6 @@ namespace SandboxRpg.Systems
 
         public override void Draw(GameTime gameTime)
         {
-            graphicsDevice.Clear(Color.Black);
             graphicsDevice.BlendState = BlendState.AlphaBlend;
 
             var viewMatrix = camera.GetViewMatrix();

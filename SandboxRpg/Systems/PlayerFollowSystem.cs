@@ -12,7 +12,7 @@ namespace SandboxRpg.Systems
         private ComponentMapper<Transform2> transformMapper;
 
         public PlayerFollowSystem(Camera<Vector2> camera)
-            : base(Aspect.All(typeof(Player), typeof(Transform2)))
+            : base(Aspect.All(typeof(Components.Player), typeof(Transform2)))
         {
             this.camera = camera
                 ?? throw new ArgumentNullException(nameof(camera));
@@ -27,8 +27,6 @@ namespace SandboxRpg.Systems
         {
             var transform = transformMapper.Get(entityId);
             camera.LookAt(transform.Position);
-
-            System.Console.WriteLine(transform.Position);
         }
     }
 }

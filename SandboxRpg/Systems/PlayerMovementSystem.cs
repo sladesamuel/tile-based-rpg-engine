@@ -11,7 +11,7 @@ namespace SandboxRpg.Systems
         private ComponentMapper<Transform2> transformMapper;
 
         public PlayerMovementSystem()
-            : base(Aspect.All(typeof(Player), typeof(Transform2)))
+            : base(Aspect.All(typeof(Components.Player), typeof(Transform2)))
         {
         }
 
@@ -40,35 +40,27 @@ namespace SandboxRpg.Systems
 
         private static Vector2 GetMovementDirection(KeyboardState keyboardState)
         {
-            var movementDirection = Vector2.Zero;
-
             if (keyboardState.IsKeyDown(Keys.Down))
             {
-                movementDirection += Vector2.UnitY;
+                return Vector2.UnitY;
             }
 
             if (keyboardState.IsKeyDown(Keys.Up))
             {
-                movementDirection -= Vector2.UnitY;
+                return -Vector2.UnitY;
             }
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                movementDirection -= Vector2.UnitX;
+                return -Vector2.UnitX;
             }
 
             if (keyboardState.IsKeyDown(Keys.Right))
             {
-                movementDirection += Vector2.UnitX;
+                return Vector2.UnitX;
             }
 
-            // Can't normalize a zero vector, so make sure we check for it
-            if (movementDirection != Vector2.Zero)
-            {
-                movementDirection.Normalize();
-            }
-
-            return movementDirection;
+            return Vector2.Zero;
         }
     }
 }

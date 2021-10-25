@@ -108,6 +108,7 @@ namespace SandboxRpg
 
             var position = camera.WorldToScreen(screenPosition);
 
+            entity.Attach(new Components.Player());
             entity.Attach(new Sprite(texture));
             entity.Attach(new Transform2(position));
         }

@@ -6,11 +6,11 @@ using MonoGame.Extended.Entities.Systems;
 
 namespace SandboxRpg.Systems
 {
-    public class PlayerMovementSystem : EntityProcessingSystem
+    public class PlayerInputSystem : EntityProcessingSystem
     {
         private ComponentMapper<Transform2> transformMapper;
 
-        public PlayerMovementSystem()
+        public PlayerInputSystem()
             : base(Aspect.All(typeof(Components.Player), typeof(Transform2)))
         {
         }

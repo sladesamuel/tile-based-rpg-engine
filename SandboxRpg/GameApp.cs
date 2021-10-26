@@ -45,7 +45,7 @@ namespace SandboxRpg
             camera = new OrthographicCamera(viewportAdapter);
 
             world = new WorldBuilder()
-                .AddSystem(new PlayerMovementSystem())
+                .AddSystem(new PlayerInputSystem())
                 .AddSystem(new PlayerFollowSystem(camera))
                 .AddSystem(new PreRenderSystem(GraphicsDevice))
                 .AddSystem(tileMapRenderSystem = new TileMapRenderSystem(GraphicsDevice, camera))

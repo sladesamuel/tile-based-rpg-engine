@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
+using SandboxRpg.Components;
 
 namespace SandboxRpg.Systems
 {
@@ -11,7 +12,7 @@ namespace SandboxRpg.Systems
         private ComponentMapper<Transform2> transformMapper;
 
         public PlayerInputSystem()
-            : base(Aspect.All(typeof(Components.Player), typeof(Transform2)))
+            : base(Aspect.All(typeof(Player), typeof(Transform2)))
         {
         }
 

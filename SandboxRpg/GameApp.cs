@@ -5,31 +5,24 @@ using MonoGame.Extended;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended.ViewportAdapters;
+using SandboxRpg.Components;
 using SandboxRpg.Systems;
 
 namespace SandboxRpg
 {
     public class GameApp : Game
     {
-        private const int WindowWidth = 720;
-        private const int WindowHeight = 480;
-        private const int ViewportWidth = 360;
-        private const int ViewportHeight = 240;
-
-        private GraphicsDeviceManager graphics;
-
         private World world;
         private OrthographicCamera camera;
         private TileMapRenderSystem tileMapRenderSystem;
 
         public GameApp()
         {
-            graphics = new GraphicsDeviceManager(this);
+            var graphics = new GraphicsDeviceManager(this);
 
-            graphics.PreferredBackBufferWidth = WindowWidth;
-            graphics.PreferredBackBufferHeight = WindowHeight;
+            graphics.PreferredBackBufferWidth = Constants.WindowWidth;
+            graphics.PreferredBackBufferHeight = Constants.WindowHeight;
             graphics.ApplyChanges();
 
             graphics.IsFullScreen = false;
@@ -41,7 +34,9 @@ namespace SandboxRpg
 
         protected override void Initialize()
         {
-            var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, ViewportWidth, ViewportHeight);
+            var viewportAdapter = new BoxingViewportAdapter(
+                Window, GraphicsDevice, Constants.ViewportWidth, Constants.ViewportHeight);
+
             camera = new OrthographicCamera(viewportAdapter);
 
             world = new WorldBuilder()
@@ -62,11 +57,27 @@ namespace SandboxRpg
             var tiledMap = Content.Load<TiledMap>("Maps/Home");
             tileMapRenderSystem.LoadMap(tiledMap);
 
-            // TODO: Tidy up loading of player.
-            var playerEntity = world.CreateEntity();
-            Player.AttachComponents(Content, GraphicsDevice.Viewport, camera, playerEntity);
+            CreatePlayer();
 
             base.LoadContent();
+        }
+
+        private void CreatePlayer()
+        {
+            var viewport = GraphicsDevice.Viewport;
+            var entity = world.CreateEntity();
+
+            var texture = Content.Load<Texture2D>("Spritesheets/player");
+            var screenPosition = new Vector2(
+                (viewport.Width / 2f) - (Constants.SpriteWidth / 2f),
+                (viewport.Height / 2f) - (Constants.SpriteHeight / 2f)
+            );
+
+            var position = camera.WorldToScreen(screenPosition);
+
+            entity.Attach(new Player());
+            entity.Attach(new Sprite(texture));
+            entity.Attach(new Transform2(position));
         }
 
         protected override void Update(GameTime gameTime)

@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 using SandboxRpg.Components;
@@ -9,34 +8,39 @@ namespace SandboxRpg.Systems
 {
     public class PlayerInputSystem : EntityProcessingSystem
     {
-        private ComponentMapper<Transform2> transformMapper;
+        private ComponentMapper<Movement> movementMapper;
 
         public PlayerInputSystem()
-            : base(Aspect.All(typeof(Player), typeof(Transform2)))
+            : base(Aspect.All(typeof(Player)))
         {
         }
 
         public override void Initialize(IComponentMapperService mapperService)
         {
-            transformMapper = mapperService.GetMapper<Transform2>();
+            movementMapper = mapperService.GetMapper<Movement>();
         }
 
         public override void Process(GameTime gameTime, int entityId)
         {
             var currentKeyboardState = Keyboard.GetState();
-            var transform = transformMapper.Get(entityId);
 
-            Move(gameTime, currentKeyboardState, transform);
+            CheckIfMoving(currentKeyboardState, entityId);
         }
 
-        private void Move(GameTime gameTime, KeyboardState keyboardState, Transform2 transform)
+        private void CheckIfMoving(KeyboardState keyboardState, int entityId)
         {
-            const int speed = 200;
-
-            var seconds = gameTime.GetElapsedSeconds();
             var movementDirection = GetMovementDirection(keyboardState);
 
-            transform.Position += speed * movementDirection * seconds;
+            if (movementDirection == Vector2.Zero)
+            {
+                // Stop the player moving
+                movementMapper.Delete(entityId);
+            }
+            else
+            {
+                // Start moving the player
+                movementMapper.Put(entityId, new Movement(movementDirection));
+            }
         }
 
         private static Vector2 GetMovementDirection(KeyboardState keyboardState)

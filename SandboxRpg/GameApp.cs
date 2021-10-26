@@ -42,6 +42,7 @@ namespace SandboxRpg
             world = new WorldBuilder()
                 .AddSystem(new PlayerInputSystem())
                 .AddSystem(new PlayerFollowSystem(camera))
+                .AddSystem(new MovementSystem())
                 .AddSystem(new PreRenderSystem(GraphicsDevice))
                 .AddSystem(tileMapRenderSystem = new TileMapRenderSystem(GraphicsDevice, camera))
                 .AddSystem(new RenderSystem(GraphicsDevice, camera))

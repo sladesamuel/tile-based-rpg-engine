@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Content\Maps\Map.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Content\Spritesheets\player.sf" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

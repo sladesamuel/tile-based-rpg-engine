@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using MonoGame.Extended.Content;
 using MonoGame.Extended.Entities;
+using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.ViewportAdapters;
@@ -43,6 +45,7 @@ namespace SandboxRpg
                 .AddSystem(new PlayerInputSystem())
                 .AddSystem(new PlayerFollowSystem(camera))
                 .AddSystem(new MovementSystem())
+                .AddSystem(new AnimationSystem())
                 .AddSystem(new PreRenderSystem(GraphicsDevice))
                 .AddSystem(tileMapRenderSystem = new TileMapRenderSystem(GraphicsDevice, camera))
                 .AddSystem(new RenderSystem(GraphicsDevice, camera))
@@ -68,7 +71,7 @@ namespace SandboxRpg
             var viewport = GraphicsDevice.Viewport;
             var entity = world.CreateEntity();
 
-            var texture = Content.Load<Texture2D>("Spritesheets/player");
+            var spriteSheet = Content.Load<SpriteSheet>("Spritesheets/player.sf", new JsonContentLoader());
             var screenPosition = new Vector2(
                 (viewport.Width / 2f) - (Constants.SpriteWidth / 2f),
                 (viewport.Height / 2f) - (Constants.SpriteHeight / 2f)
@@ -76,8 +79,11 @@ namespace SandboxRpg
 
             var position = camera.WorldToScreen(screenPosition);
 
+            var animatedSprite = new AnimatedSprite(spriteSheet);
+            animatedSprite.Play("idle");
+
             entity.Attach(new Player());
-            entity.Attach(new Sprite(texture));
+            entity.Attach(animatedSprite);
             entity.Attach(new Transform2(position));
         }
 

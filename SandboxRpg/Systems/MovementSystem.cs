@@ -43,7 +43,7 @@ namespace SandboxRpg.Systems
                 return;
             }
 
-            const int speed = 200;
+            const int speed = 100;
             transform.Position += speed * movement.Direction * elapsedSeconds;
         }
     }

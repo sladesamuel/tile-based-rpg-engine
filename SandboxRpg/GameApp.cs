@@ -81,7 +81,7 @@ namespace SandboxRpg
 
             entity.Attach(new Player());
             entity.Attach(new AnimatedSprite(spriteSheet, "idle"));
-            entity.Attach(new Transform2(position));
+            entity.Attach(new Transform2(position.X, position.Y, scaleX: 0.5f, scaleY: 0.5f));
         }
 
         protected override void Update(GameTime gameTime)

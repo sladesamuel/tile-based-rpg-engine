@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using MonoGame.Extended.Animations;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
+using MonoGame.Extended.Sprites;
 
 namespace SandboxRpg.Systems
 {

@@ -16,10 +16,11 @@ namespace SandboxRpg.Systems
         private readonly SpriteBatch spriteBatch;
 
         private ComponentMapper<Sprite> spriteMapper;
+        private ComponentMapper<AnimatedSprite> animatedSpriteMapper;
         private ComponentMapper<Transform2> transformMapper;
 
         public RenderSystem(GraphicsDevice graphicsDevice, Camera<Vector2> camera)
-            : base(Aspect.All(typeof(Sprite), typeof(Transform2)))
+            : base(Aspect.All(typeof(Transform2)).One(typeof(Sprite), typeof(AnimatedSprite)))
         {
             this.graphicsDevice = graphicsDevice
                 ?? throw new ArgumentNullException(nameof(graphicsDevice));
@@ -33,6 +34,7 @@ namespace SandboxRpg.Systems
         public override void Initialize(IComponentMapperService mapperService)
         {
             spriteMapper = mapperService.GetMapper<Sprite>();
+            animatedSpriteMapper = mapperService.GetMapper<AnimatedSprite>();
             transformMapper = mapperService.GetMapper<Transform2>();
         }
 
@@ -45,7 +47,8 @@ namespace SandboxRpg.Systems
 
             foreach (var entity in ActiveEntities)
             {
-                var sprite = spriteMapper.Get(entity);
+                // We should either have a Sprite or AnimatedSprite component
+                var sprite = spriteMapper.Get(entity) ?? animatedSpriteMapper.Get(entity);
                 var transform = transformMapper.Get(entity);
 
                 sprite.Draw(

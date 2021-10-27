@@ -79,11 +79,8 @@ namespace SandboxRpg
 
             var position = camera.WorldToScreen(screenPosition);
 
-            var animatedSprite = new AnimatedSprite(spriteSheet);
-            animatedSprite.Play("idle");
-
             entity.Attach(new Player());
-            entity.Attach(animatedSprite);
+            entity.Attach(new AnimatedSprite(spriteSheet, "idle"));
             entity.Attach(new Transform2(position));
         }
 

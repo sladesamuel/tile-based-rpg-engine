@@ -1,8 +1,12 @@
 SHELL := /bin/bash
 
+.PHONY: clean
+clean:
+	dotnet clean
+
 .PHONY: build
 build:
-	dotnet build SandboxRpg/
+	dotnet build
 
 .PHONY: start
 start:

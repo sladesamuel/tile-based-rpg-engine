@@ -9,6 +9,7 @@ namespace SandboxRpg.Systems
     public class PlayerInputSystem : EntityProcessingSystem
     {
         private ComponentMapper<Movement> movementMapper;
+        private ComponentMapper<Animation> animationMapper;
 
         public PlayerInputSystem()
             : base(Aspect.All(typeof(Player)))
@@ -18,6 +19,7 @@ namespace SandboxRpg.Systems
         public override void Initialize(IComponentMapperService mapperService)
         {
             movementMapper = mapperService.GetMapper<Movement>();
+            animationMapper = mapperService.GetMapper<Animation>();
         }
 
         public override void Process(GameTime gameTime, int entityId)
@@ -29,9 +31,9 @@ namespace SandboxRpg.Systems
 
         private void CheckIfMoving(KeyboardState keyboardState, int entityId)
         {
-            var movementDirection = GetMovementDirection(keyboardState);
+            var movement = GetMovement(keyboardState);
 
-            if (movementDirection == Vector2.Zero)
+            if (movement.Item1 == Vector2.Zero)
             {
                 // Stop the player moving
                 movementMapper.Delete(entityId);
@@ -39,33 +41,35 @@ namespace SandboxRpg.Systems
             else
             {
                 // Start moving the player
-                movementMapper.Put(entityId, new Movement(movementDirection));
+                movementMapper.Put(entityId, new Movement(movement.Item1));
             }
+
+            animationMapper.Put(entityId, new Animation(movement.Item2));
         }
 
-        private static Vector2 GetMovementDirection(KeyboardState keyboardState)
+        private static (Vector2, string) GetMovement(KeyboardState keyboardState)
         {
             if (keyboardState.IsKeyDown(Keys.Down))
             {
-                return Vector2.UnitY;
+                return (Vector2.UnitY, "walkDown");
             }
 
             if (keyboardState.IsKeyDown(Keys.Up))
             {
-                return -Vector2.UnitY;
+                return (-Vector2.UnitY, "walkUp");
             }
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                return -Vector2.UnitX;
+                return (-Vector2.UnitX, "walkLeft");
             }
 
             if (keyboardState.IsKeyDown(Keys.Right))
             {
-                return Vector2.UnitX;
+                return (Vector2.UnitX, "walkRight");
             }
 
-            return Vector2.Zero;
+            return (Vector2.Zero, "idle");
         }
     }
 }

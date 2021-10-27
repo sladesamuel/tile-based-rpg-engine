@@ -19,7 +19,7 @@
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/Debug.spritefont;Fonts/Debug.spritefont
+/build:Fonts/Debug.spritefont
 
 #begin Maps/Home.tmx
 /importer:TiledMapImporter
@@ -37,4 +37,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Spritesheets/player.png
+
+#begin Spritesheets/player.sf
+/importer:SpriteFactoryContentImporter
+/processor:SpriteFactoryContentProcessor
+/processorParam:ContentType=MonoGame.Extended MonoGame.Extended.Animations.SpriteFactory.SpriteFactoryFileReader, MonoGame.Extended.Animations
+/build:Spritesheets/player.sf
 

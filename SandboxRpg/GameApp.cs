@@ -72,15 +72,12 @@ namespace SandboxRpg
             var entity = world.CreateEntity();
 
             var spriteSheet = Content.Load<SpriteSheet>("Spritesheets/player.sf", new JsonContentLoader());
-            var screenPosition = new Vector2(
-                (viewport.Width / 2f) - (Constants.SpriteWidth / 2f),
-                (viewport.Height / 2f) - (Constants.SpriteHeight / 2f)
-            );
 
-            var position = camera.WorldToScreen(screenPosition);
+            var playerPosition = new Point(9, 15);
+            var position = TileSupport.ConvertTileToScreenPosition(playerPosition);
 
             entity.Attach(new Player());
-            entity.Attach(new AnimatedSprite(spriteSheet, "idle"));
+            entity.Attach(new AnimatedSprite(spriteSheet, "idle") { Origin = new Vector2(16f, 32f) });
             entity.Attach(new Transform2(position.X, position.Y, scaleX: 0.5f, scaleY: 0.5f));
         }
 

@@ -8,5 +8,7 @@ namespace SandboxRpg
         public const int ViewportHeight = 240;
         public const int SpriteWidth = 48;
         public const int SpriteHeight = 64;
+        public const int TileWidth = 16;
+        public const int TileHeight = 16;
     }
 }

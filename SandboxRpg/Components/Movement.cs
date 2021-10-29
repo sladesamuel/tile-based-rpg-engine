@@ -4,11 +4,15 @@ namespace SandboxRpg.Components
 {
     public class Movement
     {
-        public Movement(Vector2 direction)
+        public Movement(Vector2 targetPosition)
         {
-            Direction = direction;
+            TargetPosition = targetPosition;
         }
 
-        public Vector2 Direction { get; }
+        public Vector2 TargetPosition { get; }
+
+        public bool ShouldStop { get; private set; }
+
+        public void Stop() => ShouldStop = true;
     }
 }

@@ -32,19 +32,41 @@ namespace SandboxRpg.Systems
                 var transform = transformMapper.Get(entity);
 
                 Move(elapsedSeconds, movement, transform);
+                DeleteMovementComponentIfComplete(entity, transform, movement);
             }
         }
+
+        private static int PerformTileBasedRounding(float value) => (int)System.Math.Round(value);
 
         private void Move(float elapsedSeconds, Movement movement, Transform2 transform)
         {
-            // The Movement component may have been deleted from the entity mid-frame
-            if (movement == null)
-            {
-                return;
-            }
+            const int speed = 2;
+            float amount = elapsedSeconds * speed;
 
-            const int speed = 100;
-            transform.Position += speed * movement.Direction * elapsedSeconds;
+            int x = PerformTileBasedRounding(MathHelper.Lerp(
+                transform.Position.X,
+                movement.TargetPosition.X,
+                amount
+            ));
+
+            int y = PerformTileBasedRounding(MathHelper.Lerp(
+                transform.Position.Y,
+                movement.TargetPosition.Y,
+                amount
+            ));
+
+            transform.Position = new Vector2(x, y);
         }
+
+        private void DeleteMovementComponentIfComplete(int entityId, Transform2 transform, Movement movement)
+        {
+            if (movement.ShouldStop && HasReachedTarget(transform, movement))
+            {
+                movementMapper.Delete(entityId);
+            }
+        }
+
+        private static bool HasReachedTarget(Transform2 transform, Movement movement) =>
+            transform.Position == movement.TargetPosition;
     }
 }

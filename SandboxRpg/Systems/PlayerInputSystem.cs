@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 using SandboxRpg.Components;
@@ -10,6 +11,7 @@ namespace SandboxRpg.Systems
     {
         private ComponentMapper<Movement> movementMapper;
         private ComponentMapper<Animation> animationMapper;
+        private ComponentMapper<Transform2> transformMapper;
 
         public PlayerInputSystem()
             : base(Aspect.All(typeof(Player)))
@@ -20,6 +22,7 @@ namespace SandboxRpg.Systems
         {
             movementMapper = mapperService.GetMapper<Movement>();
             animationMapper = mapperService.GetMapper<Animation>();
+            transformMapper = mapperService.GetMapper<Transform2>();
         }
 
         public override void Process(GameTime gameTime, int entityId)
@@ -31,20 +34,25 @@ namespace SandboxRpg.Systems
 
         private void CheckIfMoving(KeyboardState keyboardState, int entityId)
         {
-            var movement = GetMovement(keyboardState);
+            var (direction, animationName) = GetMovement(keyboardState);
 
-            if (movement.Item1 == Vector2.Zero)
+            if (direction == Vector2.Zero)
             {
-                // Stop the player moving
-                movementMapper.Delete(entityId);
+                if (movementMapper.Has(entityId))
+                {
+                    // Stop the player moving
+                    var movement = movementMapper.Get(entityId);
+                    movement.Stop();
+                }
             }
             else
             {
                 // Start moving the player
-                movementMapper.Put(entityId, new Movement(movement.Item1));
+                var targetPosition = DetermineTargetPosition(entityId, direction);
+                movementMapper.Put(entityId, new Movement(targetPosition));
             }
 
-            animationMapper.Put(entityId, new Animation(movement.Item2));
+            animationMapper.Put(entityId, new Animation(animationName));
         }
 
         private static (Vector2, string) GetMovement(KeyboardState keyboardState)
@@ -70,6 +78,19 @@ namespace SandboxRpg.Systems
             }
 
             return (Vector2.Zero, "idle");
+        }
+
+        private Vector2 DetermineTargetPosition(int entityId, Vector2 direction)
+        {
+            var transform = transformMapper.Get(entityId);
+
+            var currentTile = TileSupport.ConvertScreenToTilePosition(transform.Position);
+            var nextTile = new Point(
+                currentTile.X + (int)direction.X,
+                currentTile.Y + (int)direction.Y
+            );
+
+            return TileSupport.ConvertTileToScreenPosition(nextTile);
         }
     }
 }

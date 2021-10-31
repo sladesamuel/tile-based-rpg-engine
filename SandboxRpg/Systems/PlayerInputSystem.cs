@@ -3,7 +3,10 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
+using MonoGame.Extended.Sprites;
+using MonoGame.Extended.TextureAtlases;
 using SandboxRpg.Components;
+using Animation = SandboxRpg.Components.Animation;
 
 namespace SandboxRpg.Systems
 {
@@ -38,18 +41,11 @@ namespace SandboxRpg.Systems
 
             if (direction == Vector2.Zero)
             {
-                if (movementMapper.Has(entityId))
-                {
-                    // Stop the player moving
-                    var movement = movementMapper.Get(entityId);
-                    movement.Stop();
-                }
+                StopMovement(entityId);
             }
             else
             {
-                // Start moving the player
-                var targetPosition = DetermineTargetPosition(entityId, direction);
-                movementMapper.Put(entityId, new Movement(targetPosition));
+                StartMovement(entityId, direction);
             }
 
             animationMapper.Put(entityId, new Animation(animationName));
@@ -80,9 +76,26 @@ namespace SandboxRpg.Systems
             return (Vector2.Zero, "idle");
         }
 
-        private Vector2 DetermineTargetPosition(int entityId, Vector2 direction)
+        private void StopMovement(int entityId)
+        {
+            if (movementMapper.Has(entityId))
+            {
+                // Stop the player moving
+                var movement = movementMapper.Get(entityId);
+                movement.Stop();
+            }
+        }
+
+        private void StartMovement(int entityId, Vector2 direction)
+        {
+            var (currentPosition, targetPosition) = DetermineCurrentAndTargetPosition(entityId, direction);
+            movementMapper.Put(entityId, new Movement(currentPosition, targetPosition));
+        }
+
+        private (Vector2, Vector2) DetermineCurrentAndTargetPosition(int entityId, Vector2 direction)
         {
             var transform = transformMapper.Get(entityId);
+            var currentPosition = transform.Position;
 
             var currentTile = TileSupport.ConvertScreenToTilePosition(transform.Position);
             var nextTile = new Point(
@@ -90,7 +103,27 @@ namespace SandboxRpg.Systems
                 currentTile.Y + (int)direction.Y
             );
 
-            return TileSupport.ConvertTileToScreenPosition(nextTile);
+            HighlightTile(currentTile, Color.Red);
+            HighlightTile(nextTile, Color.Green);
+
+            var targetPosition = TileSupport.ConvertTileToScreenPosition(nextTile);
+
+            return (currentPosition, targetPosition);
+        }
+
+        private void HighlightTile(Point tileCoordinates, Color tileColor)
+        {
+            var entity = CreateEntity();
+
+            var position = TileSupport.ConvertTileToScreenPosition(tileCoordinates);
+
+            entity.Attach(new Sprite(TileSupport.TileHighlightingTexture)
+            {
+                Color = tileColor,
+                Origin = Vector2.Zero
+            });
+
+            entity.Attach(new Transform2(position));
         }
     }
 }

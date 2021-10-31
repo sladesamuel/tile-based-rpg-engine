@@ -1,9 +1,12 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SandboxRpg
 {
     public static class TileSupport
     {
+        public static Texture2D TileHighlightingTexture { get; set; }
+
         public static Vector2 ConvertTileToScreenPosition(Point tilePosition) =>
             new Vector2(
                 tilePosition.X * Constants.TileWidth,

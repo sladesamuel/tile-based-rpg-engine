@@ -43,17 +43,19 @@ namespace SandboxRpg.Systems
             const int speed = 2;
             float amount = elapsedSeconds * speed;
 
-            int x = PerformTileBasedRounding(MathHelper.Lerp(
-                transform.Position.X,
-                movement.TargetPosition.X,
-                amount
-            ));
+            movement.LerpAmount += amount;
 
-            int y = PerformTileBasedRounding(MathHelper.Lerp(
-                transform.Position.Y,
+            float x = MathHelper.Lerp(
+                movement.CurrentPosition.X,
+                movement.TargetPosition.X,
+                movement.LerpAmount
+            );
+
+            float y = MathHelper.Lerp(
+                movement.CurrentPosition.Y,
                 movement.TargetPosition.Y,
-                amount
-            ));
+                movement.LerpAmount
+            );
 
             transform.Position = new Vector2(x, y);
         }

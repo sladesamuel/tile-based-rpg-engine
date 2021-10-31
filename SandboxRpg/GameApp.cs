@@ -58,6 +58,8 @@ namespace SandboxRpg
 
         protected override void LoadContent()
         {
+            TileSupport.TileHighlightingTexture = Content.Load<Texture2D>("square-border");
+
             var tiledMap = Content.Load<TiledMap>("Maps/Home");
             tileMapRenderSystem.LoadMap(tiledMap);
 

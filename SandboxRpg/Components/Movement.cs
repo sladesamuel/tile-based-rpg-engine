@@ -4,12 +4,15 @@ namespace SandboxRpg.Components
 {
     public class Movement
     {
-        public Movement(Vector2 targetPosition)
+        public Movement(Vector2 currentPosition, Vector2 targetPosition)
         {
+            CurrentPosition = currentPosition;
             TargetPosition = targetPosition;
         }
 
+        public Vector2 CurrentPosition { get; }
         public Vector2 TargetPosition { get; }
+        public float LerpAmount { get; set; }
 
         public bool ShouldStop { get; private set; }
 

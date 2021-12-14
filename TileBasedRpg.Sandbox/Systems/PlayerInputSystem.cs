@@ -5,10 +5,10 @@ using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
-using SandboxRpg.Components;
-using Animation = SandboxRpg.Components.Animation;
+using TileBasedRpg.Sandbox.Components;
+using Animation = TileBasedRpg.Sandbox.Components.Animation;
 
-namespace SandboxRpg.Systems
+namespace TileBasedRpg.Sandbox.Systems
 {
     public class PlayerInputSystem : EntityProcessingSystem
     {

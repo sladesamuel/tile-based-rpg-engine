@@ -1,4 +1,4 @@
-namespace SandboxRpg
+namespace TileBasedRpg.Sandbox
 {
     public static class Constants
     {

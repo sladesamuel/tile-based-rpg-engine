@@ -8,10 +8,10 @@ using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.ViewportAdapters;
-using SandboxRpg.Components;
-using SandboxRpg.Systems;
+using TileBasedRpg.Sandbox.Components;
+using TileBasedRpg.Sandbox.Systems;
 
-namespace SandboxRpg
+namespace TileBasedRpg.Sandbox
 {
     public class GameApp : Game
     {

@@ -10,4 +10,4 @@ build:
 
 .PHONY: start
 start:
-	dotnet run --project SandboxRpg/
+	dotnet run --project TileBasedRpg.Sandbox/

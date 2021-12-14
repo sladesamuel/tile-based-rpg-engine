@@ -1,4 +1,4 @@
-namespace SandboxRpg.Components
+namespace TileBasedRpg.Sandbox.Components
 {
     public class Animation
     {

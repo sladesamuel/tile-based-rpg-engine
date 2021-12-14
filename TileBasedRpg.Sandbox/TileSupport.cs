@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SandboxRpg
+namespace TileBasedRpg.Sandbox
 {
     public static class TileSupport
     {

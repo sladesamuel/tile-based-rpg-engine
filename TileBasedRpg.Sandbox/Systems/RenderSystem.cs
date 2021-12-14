@@ -7,7 +7,7 @@ using MonoGame.Extended.Entities.Systems;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled.Renderers;
 
-namespace SandboxRpg.Systems
+namespace TileBasedRpg.Sandbox.Systems
 {
     public class RenderSystem : EntityDrawSystem
     {

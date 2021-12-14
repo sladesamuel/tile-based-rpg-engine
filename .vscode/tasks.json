@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/SandboxRpg/SandboxRpg.csproj",
+        "${workspaceFolder}/TileBasedRpg.Sandbox/TileBasedRpg.Sandbox.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -23,7 +23,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/SandboxRpg/SandboxRpg.csproj",
+        "${workspaceFolder}/TileBasedRpg.Sandbox/TileBasedRpg.Sandbox.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -36,7 +36,7 @@
       "args": [
         "watch",
         "run",
-        "${workspaceFolder}/SandboxRpg/SandboxRpg.csproj",
+        "${workspaceFolder}/TileBasedRpg.Sandbox/TileBasedRpg.Sandbox.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],

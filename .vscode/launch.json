@@ -10,9 +10,9 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/SandboxRpg/bin/Debug/netcoreapp5/SandboxRpg.dll",
+      "program": "${workspaceFolder}/TileBasedRpg.Sandbox/bin/Debug/netcoreapp5/TileBasedRpg.Sandbox.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/SandboxRpg",
+      "cwd": "${workspaceFolder}/TileBasedRpg.Sandbox",
       // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
       "console": "internalConsole",
       "stopAtEntry": false

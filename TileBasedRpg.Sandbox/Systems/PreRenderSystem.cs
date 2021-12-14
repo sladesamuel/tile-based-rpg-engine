@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Entities.Systems;
 
-namespace SandboxRpg.Systems
+namespace TileBasedRpg.Sandbox.Systems
 {
     public class PreRenderSystem : DrawSystem
     {

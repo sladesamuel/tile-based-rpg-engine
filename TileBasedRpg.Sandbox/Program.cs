@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SandboxRpg
+namespace TileBasedRpg.Sandbox
 {
     public static class Program
     {

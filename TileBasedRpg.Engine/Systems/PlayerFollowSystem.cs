@@ -4,7 +4,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 
-namespace TileBasedRpg.Sandbox.Systems
+namespace TileBasedRpg.Engine.Systems
 {
     public class PlayerFollowSystem : EntityProcessingSystem
     {

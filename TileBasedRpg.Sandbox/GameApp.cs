@@ -8,19 +8,26 @@ using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.ViewportAdapters;
-using TileBasedRpg.Sandbox.Components;
-using TileBasedRpg.Sandbox.Systems;
+using TileBasedRpg.Engine;
+using TileBasedRpg.Engine.Components;
+using TileBasedRpg.Engine.Systems;
 
 namespace TileBasedRpg.Sandbox
 {
     public class GameApp : Game
     {
+        private Size tileSize;
         private World world;
         private OrthographicCamera camera;
         private TileMapRenderSystem tileMapRenderSystem;
 
         public GameApp()
         {
+            tileSize = new Size(
+                height: Constants.TileHeight,
+                width: Constants.TileWidth
+            );
+
             var graphics = new GraphicsDeviceManager(this);
 
             graphics.PreferredBackBufferWidth = Constants.WindowWidth;
@@ -42,7 +49,7 @@ namespace TileBasedRpg.Sandbox
             camera = new OrthographicCamera(viewportAdapter);
 
             world = new WorldBuilder()
-                .AddSystem(new PlayerInputSystem())
+                .AddSystem(new PlayerInputSystem(tileSize))
                 .AddSystem(new PlayerFollowSystem(camera))
                 .AddSystem(new MovementSystem())
                 .AddSystem(new AnimationSystem())
@@ -76,7 +83,7 @@ namespace TileBasedRpg.Sandbox
             var spriteSheet = Content.Load<SpriteSheet>("Spritesheets/player.sf", new JsonContentLoader());
 
             var playerPosition = new Point(9, 15);
-            var position = TileSupport.ConvertTileToScreenPosition(playerPosition);
+            var position = TileSupport.ConvertTileToScreenPosition(playerPosition, tileSize);
 
             entity.Attach(new Player());
             entity.Attach(new AnimatedSprite(spriteSheet, "idle") { Origin = new Vector2(16f, 32f) });

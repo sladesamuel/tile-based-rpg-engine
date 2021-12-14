@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace TileBasedRpg.Sandbox.Components
+namespace TileBasedRpg.Engine.Components
 {
     public class Movement
     {

@@ -7,7 +7,7 @@ using MonoGame.Extended.Entities.Systems;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 
-namespace TileBasedRpg.Sandbox.Systems
+namespace TileBasedRpg.Engine.Systems
 {
     public class TileMapRenderSystem : IUpdateSystem, IDrawSystem
     {

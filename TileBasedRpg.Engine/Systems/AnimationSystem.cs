@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 using MonoGame.Extended.Sprites;
-using Animation = TileBasedRpg.Sandbox.Components.Animation;
+using Animation = TileBasedRpg.Engine.Components.Animation;
 
-namespace TileBasedRpg.Sandbox.Systems
+namespace TileBasedRpg.Engine.Systems
 {
     public class AnimationSystem : EntityUpdateSystem
     {

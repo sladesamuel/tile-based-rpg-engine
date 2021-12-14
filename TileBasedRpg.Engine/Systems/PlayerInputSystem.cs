@@ -5,20 +5,23 @@ using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
-using TileBasedRpg.Sandbox.Components;
-using Animation = TileBasedRpg.Sandbox.Components.Animation;
+using TileBasedRpg.Engine.Components;
+using Animation = TileBasedRpg.Engine.Components.Animation;
 
-namespace TileBasedRpg.Sandbox.Systems
+namespace TileBasedRpg.Engine.Systems
 {
     public class PlayerInputSystem : EntityProcessingSystem
     {
+        private readonly Size tileSize;
+
         private ComponentMapper<Movement> movementMapper;
         private ComponentMapper<Animation> animationMapper;
         private ComponentMapper<Transform2> transformMapper;
 
-        public PlayerInputSystem()
+        public PlayerInputSystem(Size tileSize)
             : base(Aspect.All(typeof(Player)))
         {
+            this.tileSize = tileSize;
         }
 
         public override void Initialize(IComponentMapperService mapperService)
@@ -97,7 +100,7 @@ namespace TileBasedRpg.Sandbox.Systems
             var transform = transformMapper.Get(entityId);
             var currentPosition = transform.Position;
 
-            var currentTile = TileSupport.ConvertScreenToTilePosition(transform.Position);
+            var currentTile = TileSupport.ConvertScreenToTilePosition(transform.Position, tileSize);
             var nextTile = new Point(
                 currentTile.X + (int)direction.X,
                 currentTile.Y + (int)direction.Y
@@ -106,7 +109,7 @@ namespace TileBasedRpg.Sandbox.Systems
             HighlightTile(currentTile, Color.Red);
             HighlightTile(nextTile, Color.Green);
 
-            var targetPosition = TileSupport.ConvertTileToScreenPosition(nextTile);
+            var targetPosition = TileSupport.ConvertTileToScreenPosition(nextTile, tileSize);
 
             return (currentPosition, targetPosition);
         }
@@ -115,7 +118,7 @@ namespace TileBasedRpg.Sandbox.Systems
         {
             var entity = CreateEntity();
 
-            var position = TileSupport.ConvertTileToScreenPosition(tileCoordinates);
+            var position = TileSupport.ConvertTileToScreenPosition(tileCoordinates, tileSize);
 
             entity.Attach(new Sprite(TileSupport.TileHighlightingTexture)
             {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace TileBasedRpg.Sandbox
+namespace TileBasedRpg.Engine
 {
     public class TextDrawer
     {

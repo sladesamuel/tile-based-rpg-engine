@@ -42,17 +42,13 @@ namespace TileBasedRpg.Engine.Systems
         {
             var (direction, animationName) = GetMovement(keyboardState);
 
-            if (direction == Vector2.Zero)
+            if (direction != Vector2.Zero && !IsAlreadyMoving(entityId))
             {
-                StopMovement(entityId);
+                StartMovement(entityId, direction, animationName);
             }
-            else
-            {
-                StartMovement(entityId, direction);
-            }
-
-            animationMapper.Put(entityId, new Animation(animationName));
         }
+
+        private bool IsAlreadyMoving(int entityId) => movementMapper.Has(entityId);
 
         private static (Vector2, string) GetMovement(KeyboardState keyboardState)
         {
@@ -79,54 +75,14 @@ namespace TileBasedRpg.Engine.Systems
             return (Vector2.Zero, "idle");
         }
 
-        private void StopMovement(int entityId)
-        {
-            if (movementMapper.Has(entityId))
-            {
-                // Stop the player moving
-                var movement = movementMapper.Get(entityId);
-                movement.Stop();
-            }
-        }
-
-        private void StartMovement(int entityId, Vector2 direction)
-        {
-            var (currentPosition, targetPosition) = DetermineCurrentAndTargetPosition(entityId, direction);
-            movementMapper.Put(entityId, new Movement(currentPosition, targetPosition));
-        }
-
-        private (Vector2, Vector2) DetermineCurrentAndTargetPosition(int entityId, Vector2 direction)
+        private void StartMovement(int entityId, Vector2 direction, string animationName)
         {
             var transform = transformMapper.Get(entityId);
-            var currentPosition = transform.Position;
+            var (currentPosition, targetPosition) =
+                MovementCalculations.DetermineCurrentAndTargetPosition(transform, direction, tileSize);
 
-            var currentTile = TileSupport.ConvertScreenToTilePosition(transform.Position, tileSize);
-            var nextTile = new Point(
-                currentTile.X + (int)direction.X,
-                currentTile.Y + (int)direction.Y
-            );
-
-            HighlightTile(currentTile, Color.Red);
-            HighlightTile(nextTile, Color.Green);
-
-            var targetPosition = TileSupport.ConvertTileToScreenPosition(nextTile, tileSize);
-
-            return (currentPosition, targetPosition);
-        }
-
-        private void HighlightTile(Point tileCoordinates, Color tileColor)
-        {
-            var entity = CreateEntity();
-
-            var position = TileSupport.ConvertTileToScreenPosition(tileCoordinates, tileSize);
-
-            entity.Attach(new Sprite(TileSupport.TileHighlightingTexture)
-            {
-                Color = tileColor,
-                Origin = Vector2.Zero
-            });
-
-            entity.Attach(new Transform2(position));
+            movementMapper.Put(entityId, new Movement(currentPosition, targetPosition));
+            animationMapper.Put(entityId, new Animation(animationName));
         }
     }
 }

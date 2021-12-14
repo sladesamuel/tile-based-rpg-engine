@@ -40,10 +40,10 @@ namespace TileBasedRpg.Engine.Systems
 
         private void Move(float elapsedSeconds, Movement movement, Transform2 transform)
         {
-            const int speed = 2;
+            const int speed = 4;
             float amount = elapsedSeconds * speed;
 
-            movement.LerpAmount += amount;
+            movement.IncrementLerpAmount(amount);
 
             float x = MathHelper.Lerp(
                 movement.CurrentPosition.X,
@@ -58,11 +58,32 @@ namespace TileBasedRpg.Engine.Systems
             );
 
             transform.Position = new Vector2(x, y);
+
+            if (IsCloseEnough(transform.Position, movement.TargetPosition))
+            {
+                transform.Position = movement.TargetPosition;
+            }
+        }
+
+        private static bool IsCloseEnough(Vector2 position, Vector2 targetPosition)
+        {
+            const float tolerance = 0.01f;
+
+            var acceptableMinimum = new Vector2(
+                targetPosition.X - tolerance, targetPosition.Y - tolerance);
+
+            var acceptableMaximum = new Vector2(
+                targetPosition.X + tolerance, targetPosition.Y + tolerance);
+
+            bool isCloseEnoughX = position.X >= acceptableMinimum.X && position.X <= acceptableMaximum.X;
+            bool isCloseEnoughY = position.Y >= acceptableMinimum.Y && position.Y <= acceptableMaximum.Y;
+
+            return isCloseEnoughX && isCloseEnoughY;
         }
 
         private void DeleteMovementComponentIfComplete(int entityId, Transform2 transform, Movement movement)
         {
-            if (movement.ShouldStop && HasReachedTarget(transform, movement))
+            if (HasReachedTarget(transform, movement))
             {
                 movementMapper.Delete(entityId);
             }

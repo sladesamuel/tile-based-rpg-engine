@@ -8,6 +8,10 @@ clean:
 build:
 	dotnet build
 
+.PHONY: test
+test:
+	dotnet test
+
 .PHONY: start
 start:
 	dotnet run --project TileBasedRpg.Sandbox/

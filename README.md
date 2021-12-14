@@ -1,6 +1,6 @@
-# Pokemon-style RPG Sandbox
+# Tile-based RPG Engine
 
-A Pokemon-style RPG sandbox, fashioned after the earlier Pokemon GameBoy games, built using .NET 5.0 and MonoGame.
+A game engine built on top of .NET 5.0 and MonoGame that adds support for developing tile-based RPG games.
 
 ## Prerequisites
 
@@ -10,6 +10,7 @@ To build and run the project, follow [this getting started guide](https://docs.m
 1. MonoGame
 1. Mono
 1. MGCB Editor
+1. [Tiled Map Editor](https://www.mapeditor.org/)
 
 ## Quick Start
 

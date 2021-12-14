@@ -6,9 +6,9 @@ A game engine built on top of .NET 5.0 and MonoGame that adds support for develo
 
 To build and run the project, follow [this getting started guide](https://docs.monogame.net/articles/getting_started/1_setting_up_your_development_environment_ubuntu.html) to install the following:
 
-1. .NET 5.0 SDK
+1. .NET 5.0 SDK _(Note: You will also need .NET 3.1 SDK for the MGCB Editor)_
 1. MonoGame
-1. Mono
+1. Mono _(Optional: Only required if you are going to be deploying against Android or iOS platforms)_
 1. MGCB Editor
 1. [Tiled Map Editor](https://www.mapeditor.org/)
 
